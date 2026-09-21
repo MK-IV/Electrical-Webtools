@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ohm's Law & Series Circuit Simulator</title>
+<style>
+  body { 
+    font-family: system-ui, -apple-system, sans-serif; 
+    max-width: 850px; 
+    margin: 2rem auto; 
+    padding: 0 1.5rem; 
+    background: #f4f4f9; 
+    color: #1e293b; 
+  }
+  .card { 
+    background: white; 
+    padding: 2rem; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+  }
+  .grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 2.5rem; 
+  }
+  .control-group { 
+    margin-bottom: 1.5rem; 
+  }
+  label { 
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 0.5rem; 
+    color: #334155;
+  }
+  input[type="range"] { 
+    width: 100%; 
+    margin-top: 0.5rem;
+    cursor: pointer;
+  }
+  input[type="number"] { 
+    width: 70px; 
+    padding: 0.35rem; 
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: right;
+  }
+  .value-display { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+  }
+  .dashboard { 
+    background: #0f172a; 
+    color: white; 
+    padding: 1.75rem; 
+    border-radius: 12px; 
+  }
+  .dashboard h3 { margin-top: 0; color: #f8fafc; }
+  .metric { 
+    margin-bottom: 1.1rem; 
+    font-size: 1.05rem; 
+    border-bottom: 1px solid #334155; 
+    padding-bottom: 0.5rem; 
+    display: flex;
+    justify-content: space-between;
+  }
+  .metric:last-child { border-bottom: none; }
+  .metric span { 
+    font-weight: 700; 
+    color: #38bdf8; 
+  }
+  h1 { text-align: center; color: #0f172a; margin-bottom: 2rem; }
+  
+  @media (max-width: 650px) { 
+    .grid { grid-template-columns: 1fr; } 
+  }
+</style>
+</head>
+<body>
+
+  <h1>Ohm's Law & Series Circuit Simulator</h1>
+  
+  <div class="card grid">
+    <div class="controls">
+      <h3>Circuit Parameters</h3>
+      
+      <div class="control-group">
+        <div class="value-display">
+          <label for="voltage">Source Voltage (E)</label>
+          <div><input type="number" id="voltageNum" value="12" min="1" max="120"> V</div>
+        </div>
+        <input type="range" id="voltage" value="12" min="1" max="120">
+      </div>
+      
+      <div class="control-group">
+        <div class="value-display">
+          <label for="r1">Resistor 1 (R₁)</label>
+          <div><input type="number" id="r1Num" value="4" min="1" max="100"> Ω</div>
+        </div>
+        <input type="range" id="r1" value="4" min="1" max="100">
+      </div>
+      
+      <div class="control-group">
+        <div class="value-display">
+          <label for="r2">Resistor 2 (R₂)</label>
+          <div><input type="number" id="r2Num" value="2" min="1" max="100"> Ω</div>
+        </div>
+        <input type="range" id="r2" value="2" min="1" max="100">
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <h3>Live Calculations</h3>
+      <div class="metric">Total Resistance (Rₜ) <span id="out-rt">6.00 Ω</span></div>
+      <div class="metric">Circuit Current (I) <span id="out-i">2.00 A</span></div>
+      <div class="metric">Voltage Drop R₁ (E₁) <span id="out-e1">8.00 V</span></div>
+      <div class="metric">Voltage Drop R₂ (E₂) <span id="out-e2">4.00 V</span></div>
+      <div class="metric">Total Power (Pₜ) <span id="out-pt">24.00 W</span></div>
+      <div class="metric">Power R₁ (P₁) <span id="out-p1">16.00 W</span></div>
+      <div class="metric">Power R₂ (P₂) <span id="out-p2">8.00 W</span></div>
+    </div>
+  </div>
+
+<script>
+  // Cache DOM elements
+  const inputs = {
+    voltage: document.getElementById('voltage'), 
+    voltageNum: document.getElementById('voltageNum'),
+    r1: document.getElementById('r1'), 
+    r1Num: document.getElementById('r1Num'),
+    r2: document.getElementById('r2'), 
+    r2Num: document.getElementById('r2Num')
+  };
+
+  const outputs = {
+    rt: document.getElementById('out-rt'), 
+    i: document.getElementById('out-i'),
+    e1: document.getElementById('out-e1'), 
+    e2: document.getElementById('out-e2'),
+    pt: document.getElementById('out-pt'), 
+    p1: document.getElementById('out-p1'),
+    p2: document.getElementById('out-p2')
+  };
+
+  // Sync range sliders and number inputs
+  function syncInputs(source, target) {
+    target.value = source.value;
+    calculate();
+  }
+
+  // Attach event listeners to all inputs
+  inputs.voltage.addEventListener('input', () => syncInputs(inputs.voltage, inputs.voltageNum));
+  inputs.voltageNum.addEventListener('input', () => syncInputs(inputs.voltageNum, inputs.voltage));
+  
+  inputs.r1.addEventListener('input', () => syncInputs(inputs.r1, inputs.r1Num));
+  inputs.r1Num.addEventListener('input', () => syncInputs(inputs.r1Num, inputs.r1));
+  
+  inputs.r2.addEventListener('input', () => syncInputs(inputs.r2, inputs.r2Num));
+  inputs.r2Num.addEventListener('input', () => syncInputs(inputs.r2Num, inputs.r2));
+
+  // Main Ohm's Law logic
+  function calculate() {
+    const E = parseFloat(inputs.voltage.value) || 0;
+    const R1 = parseFloat(inputs.r1.value) || 0;
+    const R2 = parseFloat(inputs.r2.value) || 0;
+
+    const Rt = R1 + R2;
+    // Prevent division by zero
+    const I = Rt > 0 ? E / Rt : 0; 
+    
+    const E1 = I * R1;
+    const E2 = I * R2;
+    
+    const Pt = E * I;
+    const P1 = E1 * I;
+    const P2 = E2 * I;
+
+    // Update the dashboard UI
+    outputs.rt.textContent = Rt.toFixed(2) + ' Ω';
+    outputs.i.textContent = I.toFixed(2) + ' A';
+    outputs.e1.textContent = E1.toFixed(2) + ' V';
+    outputs.e2.textContent = E2.toFixed(2) + ' V';
+    outputs.pt.textContent = Pt.toFixed(2) + ' W';
+    outputs.p1.textContent = P1.toFixed(2) + ' W';
+    outputs.p2.textContent = P2.toFixed(2) + ' W';
+  }
+
+  // Run calculation on page load
+  calculate();
+</script>
+</body>
+</html>
