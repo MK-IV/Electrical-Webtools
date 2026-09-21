@@ -1,6 +1,342 @@
 ```html
 <!DOCTYPE html> <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohm's Law Interactive Worksheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen py-8 px-4 sm:px-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Ohm's Law Fundamentals</h1>
+                <p class="text-slate-500 mt-2">Interactive practice for Voltage (E), Current (I), Resistance (R), and Power (P)</p>
+            </div>
+            <div class="mt-4 sm:mt-0 flex items-center justify-center h-16 w-16 bg-blue-50 text-blue-600 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <section class="lg:col-span-5 space-y-6">
+                <!-- Variables Definition -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-xl font-semibold mb-4 border-b pb-2 text-slate-800">Variables & Units</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="bg-blue-100 text-blue-700 font-bold w-10 h-10 rounded-lg flex items-center justify-center mr-4 shrink-0">E</div>
+                            <div>
+                                <p class="font-medium">Voltage (Electromotive Force)</p>
+                                <p class="text-sm text-slate-500">Measured in Volts (V)</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-green-100 text-green-700 font-bold w-10 h-10 rounded-lg flex items-center justify-center mr-4 shrink-0">I</div>
+                            <div>
+                                <p class="font-medium">Current (Intensity)</p>
+                                <p class="text-sm text-slate-500">Measured in Amperes/Amps (A)</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-amber-100 text-amber-700 font-bold w-10 h-10 rounded-lg flex items-center justify-center mr-4 shrink-0">R</div>
+                            <div>
+                                <p class="font-medium">Resistance</p>
+                                <p class="text-sm text-slate-500">Measured in Ohms (Ω)</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-purple-100 text-purple-700 font-bold w-10 h-10 rounded-lg flex items-center justify-center mr-4 shrink-0">P</div>
+                            <div>
+                                <p class="font-medium">Power</p>
+                                <p class="text-sm text-slate-500">Measured in Watts (W)</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Formulas Reference -->
+                <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-sm">
+                    <h2 class="text-xl font-semibold mb-4 border-b border-slate-700 pb-2">Common Formulas</h2>
+                    <div class="grid grid-cols-2 gap-4 text-sm sm:text-base">
+                        <div class="bg-slate-800 p-3 rounded-xl">
+                            <p class="text-slate-400 mb-1 text-xs uppercase tracking-wider">To find E (Voltage)</p>
+                            <p class="font-mono text-blue-300">E = I × R</p>
+                            <p class="font-mono text-blue-300">E = P / I</p>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl">
+                            <p class="text-slate-400 mb-1 text-xs uppercase tracking-wider">To find I (Current)</p>
+                            <p class="font-mono text-green-300">I = E / R</p>
+                            <p class="font-mono text-green-300">I = P / E</p>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl">
+                            <p class="text-slate-400 mb-1 text-xs uppercase tracking-wider">To find R (Resistance)</p>
+                            <p class="font-mono text-amber-300">R = E / I</p>
+                            <p class="font-mono text-amber-300">R = E² / P</p>
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded-xl">
+                            <p class="text-slate-400 mb-1 text-xs uppercase tracking-wider">To find P (Power)</p>
+                            <p class="font-mono text-purple-300">P = I × E</p>
+                            <p class="font-mono text-purple-300">P = I² × R</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-7">
+                <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-100 h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">Practice Problems</h2>
+                        <span id="scoreTracker" class="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Score: 0 / 0
+                        </span>
+                    </div>
+
+                    <!-- Problem Display -->
+                    <div class="flex-grow flex flex-col justify-center border-2 border-dashed border-slate-200 rounded-xl p-6 sm:p-10 mb-6 bg-slate-50 relative">
+                        <div id="problemContainer" class="text-center">
+                            <p class="text-slate-500 font-medium mb-2 uppercase tracking-wide">Given Values</p>
+                            <div class="flex justify-center gap-4 sm:gap-8 mb-8 text-xl sm:text-2xl font-mono text-slate-700">
+                                <div id="given1" class="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100">--</div>
+                                <div id="given2" class="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-100">--</div>
+                            </div>
+                            
+                            <p class="text-slate-500 font-medium mb-4 uppercase tracking-wide">Calculate</p>
+                            <div class="text-3xl font-bold text-slate-800 mb-6">
+                                Find <span id="targetVar" class="text-blue-600">--</span>
+                            </div>
+
+                            <!-- Input Area -->
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <div class="relative">
+                                    <input type="number" id="userAnswer" step="any" placeholder="Enter value..." 
+                                        class="w-48 px-4 py-3 text-lg border-2 border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all text-center">
+                                    <span id="unitSuffix" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 font-medium"></span>
+                                </div>
+                                <button id="checkBtn" class="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors shadow-sm focus:ring-4 focus:ring-blue-200">
+                                    Check Answer
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Overlay -->
+                        <div id="feedbackContainer" class="absolute inset-0 bg-white/95 rounded-xl flex flex-col items-center justify-center p-6 hidden opacity-0 transition-opacity duration-300">
+                            <div id="feedbackIcon" class="mb-4"></div>
+                            <h3 id="feedbackTitle" class="text-2xl font-bold mb-2"></h3>
+                            <p id="feedbackMessage" class="text-slate-600 text-center mb-6 text-lg"></p>
+                            <button id="nextBtn" class="px-8 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-colors shadow-md">
+                                Next Problem
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-sm text-slate-400 mt-auto">
+                        Tip: You can use a calculator. All problems are designed to yield clean integers or simple decimals.
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const units = {
+            'E': { name: 'Voltage', symbol: 'V', color: 'blue' },
+            'I': { name: 'Current', symbol: 'A', color: 'green' },
+            'R': { name: 'Resistance', symbol: 'Ω', color: 'amber' },
+            'P': { name: 'Power', symbol: 'W', color: 'purple' }
+        };
+
+        // Predefined clean values to avoid ugly decimals
+        const R_VALUES = [2, 4, 5, 10, 20, 25, 50, 100];
+        const I_VALUES = [1, 2, 3, 4, 5, 10];
+
+        let currentProblem = {
+            given: {},
+            target: '',
+            correctAnswer: 0
+        };
+
+        let stats = {
+            attempted: 0,
+            correct: 0
+        };
+
+        const els = {
+            given1: document.getElementById('given1'),
+            given2: document.getElementById('given2'),
+            targetVar: document.getElementById('targetVar'),
+            userAnswer: document.getElementById('userAnswer'),
+            unitSuffix: document.getElementById('unitSuffix'),
+            checkBtn: document.getElementById('checkBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            feedbackContainer: document.getElementById('feedbackContainer'),
+            feedbackIcon: document.getElementById('feedbackIcon'),
+            feedbackTitle: document.getElementById('feedbackTitle'),
+            feedbackMessage: document.getElementById('feedbackMessage'),
+            scoreTracker: document.getElementById('scoreTracker')
+        };
+
+        function generateProblem() {
+            // 1. Generate a valid, clean circuit state
+            const r = R_VALUES[Math.floor(Math.random() * R_VALUES.length)];
+            const i = I_VALUES[Math.floor(Math.random() * I_VALUES.length)];
+            const e = i * r;
+            const p = i * e;
+
+            const circuit = { E: e, I: i, R: r, P: p };
+            const variables = ['E', 'I', 'R', 'P'];
+
+            // 2. Select 2 knowns and 1 unknown randomly
+            // Shuffle variables to pick
+            const shuffledVars = [...variables].sort(() => 0.5 - Math.random());
+            
+            const givenKeys = [shuffledVars[0], shuffledVars[1]];
+            const targetKey = shuffledVars[2];
+
+            currentProblem = {
+                given: {
+                    [givenKeys[0]]: circuit[givenKeys[0]],
+                    [givenKeys[1]]: circuit[givenKeys[1]]
+                },
+                target: targetKey,
+                correctAnswer: circuit[targetKey]
+            };
+
+            updateUI();
+        }
+
+        function updateUI() {
+            const keys = Object.keys(currentProblem.given);
+            
+            // Format givens
+            els.given1.innerHTML = `<span class="font-bold text-${units[keys[0]].color}-600">${keys[0]}</span> = ${currentProblem.given[keys[0]]}${units[keys[0]].symbol}`;
+            els.given2.innerHTML = `<span class="font-bold text-${units[keys[1]].color}-600">${keys[1]}</span> = ${currentProblem.given[keys[1]]}${units[keys[1]].symbol}`;
+            
+            // Format target
+            els.targetVar.textContent = `${currentProblem.target} (${units[currentProblem.target].name})`;
+            els.targetVar.className = `text-${units[currentProblem.target].color}-600`;
+            
+            // Format input
+            els.unitSuffix.textContent = units[currentProblem.target].symbol;
+            els.userAnswer.value = '';
+            els.userAnswer.focus();
+            
+            // Hide feedback
+            hideFeedback();
+        }
+
+        function updateScore() {
+            els.scoreTracker.textContent = `Score: ${stats.correct} / ${stats.attempted}`;
+        }
+
+        function showFeedback(isCorrect) {
+            els.feedbackContainer.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before changing opacity for transition
+            setTimeout(() => {
+                els.feedbackContainer.classList.remove('opacity-0');
+            }, 10);
+
+            if (isCorrect) {
+                els.feedbackIcon.innerHTML = `
+                    <div class="h-16 w-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>`;
+                els.feedbackTitle.textContent = "Correct!";
+                els.feedbackTitle.className = "text-2xl font-bold mb-2 text-emerald-600";
+                els.feedbackMessage.innerHTML = `Great job! <br><span class="font-bold">${currentProblem.target} = ${currentProblem.correctAnswer}${units[currentProblem.target].symbol}</span>`;
+            } else {
+                els.feedbackIcon.innerHTML = `
+                    <div class="h-16 w-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>`;
+                els.feedbackTitle.textContent = "Incorrect";
+                els.feedbackTitle.className = "text-2xl font-bold mb-2 text-rose-600";
+                
+                // Show the math logic briefly
+                const keys = Object.keys(currentProblem.given);
+                els.feedbackMessage.innerHTML = `
+                    The correct answer was <span class="font-bold text-slate-800">${currentProblem.correctAnswer}${units[currentProblem.target].symbol}</span>.
+                    <br><span class="text-sm mt-2 block">Review the formulas on the left for finding ${currentProblem.target} using ${keys[0]} and ${keys[1]}.</span>
+                `;
+            }
+        }
+
+        function hideFeedback() {
+            els.feedbackContainer.classList.add('opacity-0');
+            setTimeout(() => {
+                els.feedbackContainer.classList.add('hidden');
+            }, 300);
+        }
+
+        function checkAnswer() {
+            const userVal = parseFloat(els.userAnswer.value);
+            
+            if (isNaN(userVal)) {
+                // Shake input if empty
+                els.userAnswer.classList.add('animate-pulse', 'border-rose-500');
+                setTimeout(() => els.userAnswer.classList.remove('animate-pulse', 'border-rose-500'), 500);
+                return;
+            }
+
+            // Check if correct (allowing a tiny epsilon for float comparison, though we designed for integers)
+            const isCorrect = Math.abs(userVal - currentProblem.correctAnswer) < 0.01;
+            
+            stats.attempted++;
+            if (isCorrect) {
+                stats.correct++;
+            }
+            
+            updateScore();
+            showFeedback(isCorrect);
+            els.nextBtn.focus();
+        }
+
+        els.checkBtn.addEventListener('click', checkAnswer);
+        els.nextBtn.addEventListener('click', generateProblem);
+        
+        // Allow pressing Enter in the input field
+        els.userAnswer.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        // Initialize first problem on load
+        window.onload = () => {
+            generateProblem();
+        };
+    </script>
+</body>
+<head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
